@@ -681,7 +681,7 @@ terms with more than two words (ngram \> 2).
 counts <- rTermCount::summarize_count(positions)
 ```
 
-Below the first six entries of this table:
+Below the first ten entries of this table:
 <table class=" lightable-paper table" style="font-family: &quot;Arial Narrow&quot;, arial, helvetica, sans-serif; margin-left: auto; margin-right: auto; font-size: 10px; margin-left: auto; margin-right: auto;">
 <thead>
 <tr>

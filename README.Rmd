@@ -149,7 +149,7 @@ Finally, we will create a summary of the term count, which will provide us with 
 counts <- rTermCount::summarize_count(positions)
 ```
 
-Below the first six entries of this table:
+Below the first ten entries of this table:
 ```{r echo=FALSE}
 counts %>%
   dplyr::arrange(-n_uni) %>%
