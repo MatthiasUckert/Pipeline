@@ -1,5 +1,6 @@
 ---
 output: github_document
+always_allow_html: true
 ---
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
@@ -55,10 +56,9 @@ Next, we will read the downloaded PDF file and transform its contents into a for
 
 ```{r}
 doc_raw <- readtext::readtext(.fil_doc) %>%
-  dplyr::mutate(doc_id = gsub(".pdf$", "", doc_id)) 
-
-head(doc_raw)
+  dplyr::mutate(doc_id = gsub(".pdf$", "", doc_id))
 ```
+
 
 After executing this step, we will have a table (dataframe) containing two columns:
 
@@ -84,8 +84,14 @@ Please refer to the Online Appendix accompanying the paper for more information.
 
 ```{r}
 doc_mod <- tokenize_corpus(doc_raw)
+```
 
-head(doc_mod)
+Below the first six entries of this table:
+```{r echo=FALSE}
+head(doc_mod) %>%
+  knitr::kable() %>%
+  kableExtra::kable_paper() %>%
+  kableExtra::kable_styling(font_size = 10, full_width = TRUE)
 ```
 
 ## Step 3: Retrieving the Term List
@@ -99,6 +105,14 @@ termlist <- openxlsx::read.xlsx("01_termlist/term_list.xlsx") %>%
   rTermCount::prep_termlist()
 ```
 
+Below the first six entries of this table:
+```{r echo=FALSE}
+head(termlist) %>%
+  knitr::kable() %>%
+  kableExtra::kable_paper() %>%
+  kableExtra::kable_styling(font_size = 10, full_width = TRUE)
+```
+
 ## Step 4: Retrieve Positions
 
 In this step, we will identify the exact position of every term in the document. This information will be useful for further analysis.
@@ -107,12 +121,18 @@ In this step, we will identify the exact position of every term in the document.
 
 ```{r}
 positions <- rTermCount::position_count(termlist, doc_mod, sen_id)
+```
 
-head(positions)
+Below the first six entries of this table:
+```{r echo=FALSE}
+head(positions) %>%
+  knitr::kable() %>%
+  kableExtra::kable_paper() %>%
+  kableExtra::kable_styling(font_size = 10, full_width = TRUE)
 ```
 
 | Column   | Description                                                                                                                                                                                                                                                                 |
-|-------------------|-----------------------------------------------------|
+|--------------------|----------------------------------------------------|
 | `doc_id` | This column contains the identifier for each document.                                                                                                                                                                                                                      |
 | `tid`    | This column represents the unique identifier for each term in the term list.                                                                                                                                                                                                |
 | `ngram`  | This column contains the length of the n-gram for each term.                                                                                                                                                                                                                |
@@ -129,17 +149,21 @@ Finally, we will create a summary of the term count, which will provide us with 
 counts <- rTermCount::summarize_count(positions)
 ```
 
-```{r}
+Below the first six entries of this table:
+```{r echo=FALSE}
 counts %>%
   dplyr::arrange(-n_uni) %>%
   dplyr::filter(ngram > 2) %>%
-  dplyr::slice(1:10)
+  dplyr::slice(1:10) %>%
+  knitr::kable() %>%
+  kableExtra::kable_paper() %>%
+  kableExtra::kable_styling(font_size = 10, full_width = TRUE)
 ```
 
 The output table will have the following:
 
 | Column   | Description                                                                                                |
-|-------------|-----------------------------------------------------------|
+|----------------|--------------------------------------------------------|
 | `doc_id` | This column contains the identifier for each document.                                                     |
 | `tid`    | This column represents the unique identifier for each term in the term list.                               |
 | `ngram`  | This column contains the length of the n-gram for each term.                                               |

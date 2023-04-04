@@ -60,14 +60,7 @@ PDF file and stores its content in a dataframe called **`doc_raw`**.
 
 ``` r
 doc_raw <- readtext::readtext(.fil_doc) %>%
-  dplyr::mutate(doc_id = gsub(".pdf$", "", doc_id)) 
-
-head(doc_raw)
-#> readtext object consisting of 1 document and 0 docvars.
-#> # Description: df [1 x 2]
-#>   doc_id    text               
-#> * <chr>     <chr>              
-#> 1 2020_BASF "\"BASF Repor\"..."
+  dplyr::mutate(doc_id = gsub(".pdf$", "", doc_id))
 ```
 
 After executing this step, we will have a table (dataframe) containing
@@ -128,18 +121,155 @@ description of every function used.
 
 ``` r
 doc_mod <- tokenize_corpus(doc_raw)
-
-head(doc_mod)
-#> # A tibble: 6 x 6
-#>   doc_id    pag_id par_id sen_id tok_id token        
-#>   <chr>      <int>  <int>  <int>  <int> <chr>        
-#> 1 2020_BASF      1      1      1      1 basf         
-#> 2 2020_BASF      1      1      1      2 report       
-#> 3 2020_BASF      1      1      1      3 2020         
-#> 4 2020_BASF      1      1      1      4 economic     
-#> 5 2020_BASF      1      1      1      5 environmental
-#> 6 2020_BASF      1      1      1      6 and
 ```
+
+Below the first six entries of this table:
+<table class=" lightable-paper table" style="font-family: &quot;Arial Narrow&quot;, arial, helvetica, sans-serif; margin-left: auto; margin-right: auto; font-size: 10px; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+doc_id
+</th>
+<th style="text-align:right;">
+pag_id
+</th>
+<th style="text-align:right;">
+par_id
+</th>
+<th style="text-align:right;">
+sen_id
+</th>
+<th style="text-align:right;">
+tok_id
+</th>
+<th style="text-align:left;">
+token
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+2020_BASF
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:left;">
+basf
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2020_BASF
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:left;">
+report
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2020_BASF
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:left;">
+2020
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2020_BASF
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:left;">
+economic
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2020_BASF
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:left;">
+environmental
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2020_BASF
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+6
+</td>
+<td style="text-align:left;">
+and
+</td>
+</tr>
+</tbody>
+</table>
 
 ## Step 3: Retrieving the Term List
 
@@ -157,6 +287,196 @@ termlist <- openxlsx::read.xlsx("01_termlist/term_list.xlsx") %>%
   rTermCount::prep_termlist()
 ```
 
+Below the first six entries of this table:
+<table class=" lightable-paper table" style="font-family: &quot;Arial Narrow&quot;, arial, helvetica, sans-serif; margin-left: auto; margin-right: auto; font-size: 10px; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:right;">
+tid
+</th>
+<th style="text-align:right;">
+ngram
+</th>
+<th style="text-align:left;">
+term
+</th>
+<th style="text-align:left;">
+term_orig
+</th>
+<th style="text-align:left;">
+term_raw
+</th>
+<th style="text-align:left;">
+cat1
+</th>
+<th style="text-align:left;">
+cat2
+</th>
+<th style="text-align:left;">
+cat3
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:left;">
+10 k
+</td>
+<td style="text-align:left;">
+10 k
+</td>
+<td style="text-align:left;">
+10 - k
+</td>
+<td style="text-align:left;">
+FinA
+</td>
+<td style="text-align:left;">
+GAAP
+</td>
+<td style="text-align:left;">
+CF
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:left;">
+10 ksb
+</td>
+<td style="text-align:left;">
+10 ksb
+</td>
+<td style="text-align:left;">
+10 - ksb
+</td>
+<td style="text-align:left;">
+BusA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:left;">
+10 q
+</td>
+<td style="text-align:left;">
+10 q
+</td>
+<td style="text-align:left;">
+10 - q
+</td>
+<td style="text-align:left;">
+FinA
+</td>
+<td style="text-align:left;">
+GAAP
+</td>
+<td style="text-align:left;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:left;">
+12 month expect credit loss
+</td>
+<td style="text-align:left;">
+12 month expect credit loss
+</td>
+<td style="text-align:left;">
+12 - month expected credit losses
+</td>
+<td style="text-align:left;">
+FinA
+</td>
+<td style="text-align:left;">
+GAAP
+</td>
+<td style="text-align:left;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:left;">
+13 th period
+</td>
+<td style="text-align:left;">
+13 th period
+</td>
+<td style="text-align:left;">
+13 th period
+</td>
+<td style="text-align:left;">
+BusA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+6
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:left;">
+15 minute rule
+</td>
+<td style="text-align:left;">
+15 minute rule
+</td>
+<td style="text-align:left;">
+15 minute rule
+</td>
+<td style="text-align:left;">
+BusA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+</tr>
+</tbody>
+</table>
+
 ## Step 4: Retrieve Positions
 
 In this step, we will identify the exact position of every term in the
@@ -169,18 +489,176 @@ positions in the text.
 
 ``` r
 positions <- rTermCount::position_count(termlist, doc_mod, sen_id)
-
-head(positions)
-#> # A tibble: 6 x 7
-#>   doc_id      tid ngram term        start  stop dup  
-#>   <chr>     <dbl> <int> <chr>       <int> <dbl> <lgl>
-#> 1 2020_BASF 37418     1 performance     8     8 FALSE
-#> 2 2020_BASF 43368     1 sale           18    18 FALSE
-#> 3 2020_BASF 50960     2 year end       28    29 FALSE
-#> 4 2020_BASF 37542     1 personnel      47    47 FALSE
-#> 5 2020_BASF 18126     1 expense        48    48 FALSE
-#> 6 2020_BASF 23521     1 group          56    56 FALSE
 ```
+
+Below the first six entries of this table:
+<table class=" lightable-paper table" style="font-family: &quot;Arial Narrow&quot;, arial, helvetica, sans-serif; margin-left: auto; margin-right: auto; font-size: 10px; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+doc_id
+</th>
+<th style="text-align:right;">
+tid
+</th>
+<th style="text-align:right;">
+ngram
+</th>
+<th style="text-align:left;">
+term
+</th>
+<th style="text-align:right;">
+start
+</th>
+<th style="text-align:right;">
+stop
+</th>
+<th style="text-align:left;">
+dup
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+2020_BASF
+</td>
+<td style="text-align:right;">
+37418
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:left;">
+performance
+</td>
+<td style="text-align:right;">
+8
+</td>
+<td style="text-align:right;">
+8
+</td>
+<td style="text-align:left;">
+FALSE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2020_BASF
+</td>
+<td style="text-align:right;">
+43368
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:left;">
+sale
+</td>
+<td style="text-align:right;">
+18
+</td>
+<td style="text-align:right;">
+18
+</td>
+<td style="text-align:left;">
+FALSE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2020_BASF
+</td>
+<td style="text-align:right;">
+50960
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:left;">
+year end
+</td>
+<td style="text-align:right;">
+28
+</td>
+<td style="text-align:right;">
+29
+</td>
+<td style="text-align:left;">
+FALSE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2020_BASF
+</td>
+<td style="text-align:right;">
+37542
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:left;">
+personnel
+</td>
+<td style="text-align:right;">
+47
+</td>
+<td style="text-align:right;">
+47
+</td>
+<td style="text-align:left;">
+FALSE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2020_BASF
+</td>
+<td style="text-align:right;">
+18126
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:left;">
+expense
+</td>
+<td style="text-align:right;">
+48
+</td>
+<td style="text-align:right;">
+48
+</td>
+<td style="text-align:left;">
+FALSE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2020_BASF
+</td>
+<td style="text-align:right;">
+23521
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:left;">
+group
+</td>
+<td style="text-align:right;">
+56
+</td>
+<td style="text-align:right;">
+56
+</td>
+<td style="text-align:left;">
+FALSE
+</td>
+</tr>
+</tbody>
+</table>
 
 | Column   | Description                                                                                                                                                                                                                                                                 |
 |----------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -203,25 +681,233 @@ terms with more than two words (ngram \> 2).
 counts <- rTermCount::summarize_count(positions)
 ```
 
-``` r
-counts %>%
-  dplyr::arrange(-n_uni) %>%
-  dplyr::filter(ngram > 2) %>%
-  dplyr::slice(1:10)
-#> # A tibble: 10 x 6
-#>    doc_id      tid ngram term                             n_dup n_uni
-#>    <chr>     <dbl> <int> <chr>                            <int> <int>
-#>  1 2020_BASF  8206     3 consolidated financial statement   401   401
-#>  2 2020_BASF 24954     3 income from operation               72    72
-#>  3 2020_BASF 39599     4 property plant and equipment        96    67
-#>  4 2020_BASF  9197     3 cost of capital                     63    56
-#>  5 2020_BASF 24886     3 income after tax                    44    44
-#>  6 2020_BASF  5787     3 cash flow from                      43    43
-#>  7 2020_BASF 12397     3 depreciation and amortization       44    41
-#>  8 2020_BASF  5622     4 cash and cash equivalent            36    36
-#>  9 2020_BASF 42001     3 research and development            53    33
-#> 10 2020_BASF 34325     3 oil and gas                         31    31
-```
+Below the first six entries of this table:
+<table class=" lightable-paper table" style="font-family: &quot;Arial Narrow&quot;, arial, helvetica, sans-serif; margin-left: auto; margin-right: auto; font-size: 10px; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+doc_id
+</th>
+<th style="text-align:right;">
+tid
+</th>
+<th style="text-align:right;">
+ngram
+</th>
+<th style="text-align:left;">
+term
+</th>
+<th style="text-align:right;">
+n_dup
+</th>
+<th style="text-align:right;">
+n_uni
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+2020_BASF
+</td>
+<td style="text-align:right;">
+8206
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:left;">
+consolidated financial statement
+</td>
+<td style="text-align:right;">
+401
+</td>
+<td style="text-align:right;">
+401
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2020_BASF
+</td>
+<td style="text-align:right;">
+24954
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:left;">
+income from operation
+</td>
+<td style="text-align:right;">
+72
+</td>
+<td style="text-align:right;">
+72
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2020_BASF
+</td>
+<td style="text-align:right;">
+39599
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:left;">
+property plant and equipment
+</td>
+<td style="text-align:right;">
+96
+</td>
+<td style="text-align:right;">
+67
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2020_BASF
+</td>
+<td style="text-align:right;">
+9197
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:left;">
+cost of capital
+</td>
+<td style="text-align:right;">
+63
+</td>
+<td style="text-align:right;">
+56
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2020_BASF
+</td>
+<td style="text-align:right;">
+24886
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:left;">
+income after tax
+</td>
+<td style="text-align:right;">
+44
+</td>
+<td style="text-align:right;">
+44
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2020_BASF
+</td>
+<td style="text-align:right;">
+5787
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:left;">
+cash flow from
+</td>
+<td style="text-align:right;">
+43
+</td>
+<td style="text-align:right;">
+43
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2020_BASF
+</td>
+<td style="text-align:right;">
+12397
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:left;">
+depreciation and amortization
+</td>
+<td style="text-align:right;">
+44
+</td>
+<td style="text-align:right;">
+41
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2020_BASF
+</td>
+<td style="text-align:right;">
+5622
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:left;">
+cash and cash equivalent
+</td>
+<td style="text-align:right;">
+36
+</td>
+<td style="text-align:right;">
+36
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2020_BASF
+</td>
+<td style="text-align:right;">
+42001
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:left;">
+research and development
+</td>
+<td style="text-align:right;">
+53
+</td>
+<td style="text-align:right;">
+33
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2020_BASF
+</td>
+<td style="text-align:right;">
+34325
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:left;">
+oil and gas
+</td>
+<td style="text-align:right;">
+31
+</td>
+<td style="text-align:right;">
+31
+</td>
+</tr>
+</tbody>
+</table>
 
 The output table will have the following:
 
