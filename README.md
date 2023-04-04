@@ -182,35 +182,15 @@ head(positions)
 #> 6 2020_BASF 23521     1 group          56    56 FALSE
 ```
 
-The **`positions`** dataframe contains the following columns:
-
-1.  **`doc_id`**: This column contains the identifier for each document.
-
-2.  **`tid`**: This column represents the unique identifier for each
-    term in the term list.
-
-3.  **`ngram`**: This column contains the length of the n-gram for each
-    term.
-
-4.  **`term`**: Contains the term associated with the Term ID (tid)
-
-5.  **`start`**: This column represents the starting position of the
-    term in the document. Positions are numbered sequentially, starting
-    from 1.
-
-6.  **`stop`**: This column represents the ending position of the term
-    in the document. For single-word terms, the start and stop positions
-    will be the same. For multi-word terms (n-grams), the stop position
-    will be greater than the start position.
-
-7.  **`dup`**: This column contains a logical value (TRUE or FALSE)
-    indicating whether the term is a duplicate within the same n-gram
-    sequence. If a term appears more than once within the same n-gram
-    sequence, the ‘dup’ value will be set to TRUE, otherwise, it will be
-    set to FALSE.
-
-In the **`positions`** dataframe, the exact positions of terms in each
-document are stored, which can be useful for further text analysis.
+| Column   | Description                                                                                                                                                                                                                                                                 |
+|----------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `doc_id` | This column contains the identifier for each document.                                                                                                                                                                                                                      |
+| `tid`    | This column represents the unique identifier for each term in the term list.                                                                                                                                                                                                |
+| `ngram`  | This column contains the length of the n-gram for each term.                                                                                                                                                                                                                |
+| `term`   | Contains the term associated with the Term ID (tid)                                                                                                                                                                                                                         |
+| `start`  | This column represents the starting position of the term in the document. Positions are numbered sequentially, starting from 1.                                                                                                                                             |
+| `stop`   | This column represents the ending position of the term in the document. For single-word terms, the start and stop positions will be the same. For multi-word terms (n-grams), the stop position will be greater than the start position.                                    |
+| `dup`    | This column contains a logical value (TRUE or FALSE) indicating whether the term is a duplicate within the same n-gram sequence. If a term appears more than once within the same n-gram sequence, the ‘dup’ value will be set to TRUE, otherwise, it will be set to FALSE. |
 
 ## Step 5: Summarize Counts
 
@@ -221,7 +201,9 @@ terms with more than two words (ngram \> 2).
 
 ``` r
 counts <- rTermCount::summarize_count(positions)
+```
 
+``` r
 counts %>%
   dplyr::arrange(-n_uni) %>%
   dplyr::filter(ngram > 2) %>%
@@ -243,24 +225,11 @@ counts %>%
 
 The output table will have the following:
 
-1.  **`doc_id`**: This column contains the identifier for each document.
-
-2.  **`tid`**: This column represents the unique identifier for each
-    term in the term list.
-
-3.  **`ngram`**: This column contains the length of the n-gram for each
-    term.
-
-4.  **`term`**: Contains the term associated with the Term ID (tid)
-
-5.  **`n_dup`**: This column represents the number of occurrences of the
-    term in the document, including duplicates. If a term appears more
-    than once within the same n-gram sequence, each appearance will be
-    counted.
-
-6.  **`n_uni`**: This column represents the number of unique occurrences
-    of the term in the document, excluding duplicates. Only the first
-    appearance of a term within the same n-gram sequence will be
-    counted.
-
-  
+| Column   | Description                                                                                                |
+|----------|------------------------------------------------------------------------------------------------------------|
+| `doc_id` | This column contains the identifier for each document.                                                     |
+| `tid`    | This column represents the unique identifier for each term in the term list.                               |
+| `ngram`  | This column contains the length of the n-gram for each term.                                               |
+| `term`   | Contains the term associated with the Term ID (tid)                                                        |
+| `n_dup`  | This column represents the number of occurrences of the term in the document, including duplicates.        |
+| `n_uni`  | This column represents the number of unique occurrences of the term in the document, excluding duplicates. |
