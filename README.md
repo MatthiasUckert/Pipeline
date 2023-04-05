@@ -63,8 +63,7 @@ doc_raw <- readtext::readtext(.fil_doc) %>%
   dplyr::mutate(doc_id = gsub(".pdf$", "", doc_id))
 ```
 
-After executing this step, we will have a table (dataframe) containing
-two columns:
+After executing this step, we will have a table containing two columns:
 
 1.  `doc_id`: The name of the document
 
