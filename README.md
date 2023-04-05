@@ -1,16 +1,16 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# Pipeline
+# Pipeline for counting terms in an annual report
 
-In this guide, we will walk you through a step-by-step process to
-perform a complete term count using the termlist from the paper
+In this guide, we will walk you through the step-by-step process to
+perform a complete term count using the term list from the paper
 
 **“The Standardization of Accounting Language”.**
 
 The guide is designed to be accessible to both non-technical and
 technical audiences, and will explain each step in detail, starting with
-a general description followed by in-depth details.
+a general description followed by more technical details.
 
 First, we load the required libraries and source the “functions.R” file:
 
@@ -25,10 +25,10 @@ source("functions.R", encoding = "UTF-8")
 
 ## Step 1: Retrieving a document
 
-We will start by obtaining an Annual Report from BASF SE for the year
-2020. This document is already included in the package, so there is no
-need to download it again. The document will be stored in a folder
-within the project called “00_documents”.
+We will start by obtaining an Annual Report from the website of BASF SE
+for the year 2020. This document is already included in the package, so
+there is no need to download it again. The document will be stored in a
+folder within the project called “00_documents”.
 
 *Technical details:* In this part of the process, the code makes sure
 that the necessary folder exists and that the document is saved in the
@@ -53,7 +53,7 @@ if (!file.exists(.fil_doc))  download.file(.url_basf, .fil_doc, mode = "wb")
 
 Next, we will read the downloaded PDF file and transform its contents
 into a format that can be easily analyzed. We will use a package called
-“readtext” to achieve this.
+`readtext` to achieve this.
 
 *Technical details:* The **`readtext::readtext()`** function reads the
 PDF file and stores its content in a dataframe called **`doc_raw`**.
@@ -72,7 +72,8 @@ two columns:
 
 Once the PDF is read, we will use a function from the `rTermCount`
 Package to create a table containing individual words (tokens) from the
-document.
+document. We wrap this function in a custom function to replicate the
+standardization procedure used in the paper
 
 *Technical details:* The **`tokenize_corpus()`** function processes and
 tokenizes the input text using a series of string operations and
@@ -87,19 +88,11 @@ specified in a separate table. The **`string_operations()`** function is
 a pipeline of string operations that sequentially calls the
 **`string_ops()`** function. The **`get_adjustment_lists()`** function
 reads and processes multiple files to create a list of adjustment rules
-for text preprocessing. These rules are stored in a list of data frames,
-which are then used by the **`tokenize_corpus()`** function. The
-**`tokenize_corpus()`** function starts by checking whether the input is
-a file path or a text string. If it’s a file path, the text is read
-using the **`readtext::readtext()`** function; otherwise, the text is
-directly assigned to a variable. Next, replaces words using the ‘split’
-list from the adjustment rules. The **`rTermCount::prep_document()`**
-function is then called to prepare the document for term counting.
-Finally, the function replaces words in the token column using the
-‘us_uk’ and ‘lemma’ lists from the adjustment rules. In summary, this
-script provides a comprehensive tokenization and preprocessing workflow
-for text data, using the pipeline described in the Online Appendix to
-the paper, in detail:
+for text preprocessing. The **`rTermCount::prep_document()`** function
+is then called to prepare the document for term counting. In summary,
+this script provides a comprehensive tokenization and preprocessing
+workflow for text data, using the pipeline described in the Online
+Appendix to the paper, in detail:
 
 1.  Apply a set of Regular Expressions (RegEx) to abstract away from
     minor differences in the linguistic notation of terms
@@ -124,6 +117,7 @@ doc_mod <- tokenize_corpus(doc_raw)
 ```
 
 Below the first six entries of this table:
+
 <table class=" lightable-paper table" style="font-family: &quot;Arial Narrow&quot;, arial, helvetica, sans-serif; margin-left: auto; margin-right: auto; font-size: 10px; margin-left: auto; margin-right: auto;">
 <thead>
 <tr>
@@ -288,6 +282,7 @@ termlist <- openxlsx::read.xlsx("01_termlist/term_list.xlsx") %>%
 ```
 
 Below the first six entries of this table:
+
 <table class=" lightable-paper table" style="font-family: &quot;Arial Narrow&quot;, arial, helvetica, sans-serif; margin-left: auto; margin-right: auto; font-size: 10px; margin-left: auto; margin-right: auto;">
 <thead>
 <tr>
@@ -492,6 +487,7 @@ positions <- rTermCount::position_count(termlist, doc_mod, sen_id)
 ```
 
 Below the first six entries of this table:
+
 <table class=" lightable-paper table" style="font-family: &quot;Arial Narrow&quot;, arial, helvetica, sans-serif; margin-left: auto; margin-right: auto; font-size: 10px; margin-left: auto; margin-right: auto;">
 <thead>
 <tr>
@@ -682,6 +678,7 @@ counts <- rTermCount::summarize_count(positions)
 ```
 
 Below the first ten entries of this table:
+
 <table class=" lightable-paper table" style="font-family: &quot;Arial Narrow&quot;, arial, helvetica, sans-serif; margin-left: auto; margin-right: auto; font-size: 10px; margin-left: auto; margin-right: auto;">
 <thead>
 <tr>
